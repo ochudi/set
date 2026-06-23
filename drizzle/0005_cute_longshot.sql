@@ -1,0 +1,1 @@
+ALTER TABLE "members" ADD COLUMN "notify_birthdays" boolean DEFAULT true NOT NULL;
