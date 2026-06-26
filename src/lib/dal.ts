@@ -95,8 +95,6 @@ type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 
 // --- session guards -------------------------------------------------------
 
-export const getSession = cache(async () => auth());
-
 export const getSessionUser = cache(async () => (await auth())?.user ?? null);
 
 export const requireSession = cache(async (): Promise<Session> => {
@@ -1071,12 +1069,6 @@ async function anonymiseExpiredIn(tx: Tx, cutoff: Date): Promise<number> {
   return expired.length;
 }
 
-export async function purgeExpiredMembers(): Promise<number> {
-  await requireSuperAdmin();
-  const cutoff = new Date(Date.now() - GRACE_MS);
-  return withUserContext((tx) => anonymiseExpiredIn(tx, cutoff));
-}
-
 /**
  * Cron variant of purgeExpiredMembers: no session, runs in system context.
  * Called only from the secret-guarded weekly purge cron. Purges the
@@ -1814,11 +1806,6 @@ export async function unsubscribeEmail(
     via: "email_link",
   });
   return { ok: true, found: true };
-}
-
-/** @deprecated retained for callers; prefer unsubscribeEmail(email, "all"). */
-export async function unsubscribeEmailFromAll(rawEmail: string) {
-  return unsubscribeEmail(rawEmail, "all");
 }
 
 // ============================ events ======================================
@@ -3638,16 +3625,6 @@ export async function listExco(): Promise<ExcoView[]> {
     .select()
     .from(excoMembers)
     .orderBy(excoMembers.group, excoMembers.sortOrder, excoMembers.name);
-}
-
-export async function getExcoMember(id: string): Promise<ExcoView | null> {
-  await requireRole("exco", "super_admin");
-  const [row] = await db
-    .select()
-    .from(excoMembers)
-    .where(eq(excoMembers.id, id))
-    .limit(1);
-  return row ?? null;
 }
 
 export type ExcoInput = {

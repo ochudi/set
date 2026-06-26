@@ -9,14 +9,6 @@ import { isPauFaculty } from "@/lib/pau";
  * we refuse ambiguous formats rather than guess.
  */
 
-export const CSV_TEMPLATE_HEADERS = [
-  "full_name",
-  "email",
-  "birthday",
-  "graduating_year",
-  "faculty",
-] as const;
-
 export const CSV_TEMPLATE =
   "full_name,email,birthday,graduating_year,faculty\r\n" +
   "Ada Obi,ada@example.com,1990-05-12,2015,Lagos Business School\r\n";

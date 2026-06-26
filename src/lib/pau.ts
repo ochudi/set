@@ -29,20 +29,3 @@ export const PAU_FACULTY_SET: ReadonlySet<string> = new Set(PAU_FACULTIES);
 export function isPauFaculty(value: string): value is PauFaculty {
   return PAU_FACULTY_SET.has(value);
 }
-
-/**
- * Programmes / degrees — the finer-grained field paired with the school.
- *
- * ⚠️ NOT YET POPULATED. The full programme catalog still needs to be sourced
- * and verified. While this array is empty, isPauProgramme() accepts any
- * non-empty value (free text); it automatically tightens to a strict allow-list
- * as soon as entries are added here.
- */
-export const PAU_PROGRAMMES: readonly string[] = [];
-
-const PAU_PROGRAMME_SET: ReadonlySet<string> = new Set(PAU_PROGRAMMES);
-
-export function isPauProgramme(value: string): boolean {
-  if (PAU_PROGRAMME_SET.size === 0) return value.trim().length > 0;
-  return PAU_PROGRAMME_SET.has(value);
-}

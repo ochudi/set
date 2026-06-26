@@ -15,14 +15,6 @@ export function hashToken(raw: string): string {
   return createHash("sha256").update(raw).digest("hex");
 }
 
-/** Constant-time compare of two hex digests. */
-export function hashesEqual(a: string, b: string): boolean {
-  const ab = Buffer.from(a, "hex");
-  const bb = Buffer.from(b, "hex");
-  if (ab.length === 0 || ab.length !== bb.length) return false;
-  return timingSafeEqual(ab, bb);
-}
-
 function signingSecret(): string {
   const secret = process.env.AUTH_SECRET;
   if (!secret) throw new Error("AUTH_SECRET is not set");
