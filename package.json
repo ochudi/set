@@ -17,6 +17,7 @@
     "seed-audit": "tsx scripts/seed-audit.ts",
     "seed-exco": "tsx scripts/seed-exco.ts",
     "seed-bus": "tsx scripts/seed-bus.ts",
+    "seed-demo": "tsx scripts/seed-demo.ts",
     "knip": "knip",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
